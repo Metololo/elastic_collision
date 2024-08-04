@@ -1,7 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include "includes/Particle.hpp"
 
-
 Particle::Particle(float radius, sf::Vector2f position, sf::Vector2f velocity)
 {
 	this->circle.setRadius(radius);
@@ -13,21 +12,21 @@ Particle::Particle(float radius, sf::Vector2f position, sf::Vector2f velocity)
 
 	int r = rand() % 3;
 
-	if (r == 0) {
+	if (r == 0)
+	{
 		this->circle.setFillColor(darkBlue);
-
 	}
-	else if (r == 1) {
+	else if (r == 1)
+	{
 		this->circle.setFillColor(blue);
-
 	}
-	else {
+	else
+	{
 		this->circle.setFillColor(lightBlue);
 	}
 
-
 	this->setVelocity(velocity);
-	this->mass = (float) M_PI * radius * radius;
+	this->mass = (float)M_PI * radius * radius;
 }
 
 sf::Vector2f Particle::getPosition()
@@ -75,40 +74,43 @@ void Particle::setVelocity(const sf::Vector2f velocity)
 	this->velocity.y = velocity.y;
 }
 
-void Particle::draw(sf::RenderTarget& target, sf::RenderStates states) const
+void Particle::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
 	target.draw(circle);
 }
 
-void Particle::update(float dt, sf::RenderWindow& window)
+void Particle::update(float dt, sf::RenderWindow &window)
 {
 	float c_x = circle.getPosition().x;
 	float c_y = circle.getPosition().y;
 
-	circle.setPosition(sf::Vector2f(dt *velocity.x + c_x, dt * velocity.y + c_y));
+	circle.setPosition(sf::Vector2f(dt * velocity.x + c_x, dt * velocity.y + c_y));
 
 	float left = circle.getPosition().x;
 	float right = circle.getPosition().x + circle.getRadius() * 2;
 	float top = circle.getPosition().y;
 	float bottom = circle.getPosition().y + circle.getRadius() * 2;
 
-
-	if (left <= 0) {
+	if (left <= 0)
+	{
 		velocity.x = -velocity.x;
 		circle.setPosition(0, circle.getPosition().y);
 	}
 
-	if (right >= window.getSize().x) {
+	if (right >= window.getSize().x)
+	{
 		velocity.x = -velocity.x;
 		circle.setPosition(window.getSize().x - circle.getRadius() * 2, circle.getPosition().y);
 	}
 
-	if (top <= 0) {
+	if (top <= 0)
+	{
 		velocity.y = -velocity.y;
 		circle.setPosition(circle.getPosition().x, 0);
 	}
 
-	if (bottom >= window.getSize().y) {
+	if (bottom >= window.getSize().y)
+	{
 		velocity.y = -velocity.y;
 		circle.setPosition(circle.getPosition().x, window.getSize().y - circle.getRadius() * 2);
 	}

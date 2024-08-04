@@ -6,7 +6,7 @@ float Collision::distanceBetween(sf::Vector2f d1, sf::Vector2f d2)
 	return std::sqrt((deltaPos.x * deltaPos.x) + (deltaPos.y * deltaPos.y));
 }
 
-void Collision::separateParticles(Particle& particle1, Particle& particle2)
+void Collision::separateParticles(Particle &particle1, Particle &particle2)
 {
 	sf::Vector2f p1 = particle1.getCenter();
 	sf::Vector2f p2 = particle2.getCenter();
@@ -20,12 +20,13 @@ void Collision::separateParticles(Particle& particle1, Particle& particle2)
 	particle2.setCenter(sf::Vector2f(p2.x - (overlap * (p2.x - p1.x) / distance), p2.y - (overlap * (p2.y - p1.y) / distance)));
 }
 
-void Collision::handleParticleCollision(Particle& particle1, Particle& particle2)
+void Collision::handleParticleCollision(Particle &particle1, Particle &particle2)
 {
 	float radius1 = particle1.getRadius();
 	float radius2 = particle2.getRadius();
 
-	if (distanceBetween(particle1.getCenter(), particle2.getCenter()) >= radius1 + radius2) {
+	if (distanceBetween(particle1.getCenter(), particle2.getCenter()) >= radius1 + radius2)
+	{
 		return;
 	}
 
@@ -48,5 +49,4 @@ void Collision::handleParticleCollision(Particle& particle1, Particle& particle2
 
 	particle1.setVelocity(velocity1);
 	particle2.setVelocity(velocity2);
-
 }

@@ -3,10 +3,8 @@
 #include "includes/Particle.hpp"
 #include "includes/Collision.hpp"
 
-
-sf::Vector2f getRandomParticlePosition(sf::RenderWindow& window, float radius);
+sf::Vector2f getRandomParticlePosition(sf::RenderWindow &window, float radius);
 sf::Vector2f getRandomParticleVelocity();
-
 
 int main()
 {
@@ -32,9 +30,10 @@ int main()
 
 	const float velMultiplier = 100.f;
 
-	std::vector<Particle*> particles;
+	std::vector<Particle *> particles;
 
-	for (int i = 0; i < 100; ++i) {
+	for (int i = 0; i < 100; ++i)
+	{
 		float radius = 10;
 		sf::Vector2f position = getRandomParticlePosition(window, radius);
 		sf::Vector2f velocity = getRandomParticleVelocity();
@@ -46,12 +45,14 @@ int main()
 
 	sf::Clock clock;
 
-	while (window.isOpen()) {
+	while (window.isOpen())
+	{
 
 		window.clear();
 
 		sf::Event event;
-		while (window.pollEvent(event)) {
+		while (window.pollEvent(event))
+		{
 			switch (event.type)
 			{
 			case sf::Event::Closed:
@@ -66,41 +67,45 @@ int main()
 		float dt = clock.restart().asSeconds();
 		lastTime += dt;
 
-		if (lastTime >= 0.05f) {
+		if (lastTime >= 0.05f)
+		{
 			float fps = 1.f / (dt);
 			fpsText.setString(std::to_string(fps) + " fps    particles : " + std::to_string(particles.size()));
 			lastTime = 0;
 		}
 
 		// could be optimized with kd-tree in the future
-		for (int i = 0; i < particles.size(); ++i) {
-			for (int j = i+1; j < particles.size(); ++j) {
+		for (int i = 0; i < particles.size(); ++i)
+		{
+			for (int j = i + 1; j < particles.size(); ++j)
+			{
 				Collision::handleParticleCollision(*particles[i], *particles[j]);
 			}
 		}
 
-		for (auto particle : particles) {
+		for (auto particle : particles)
+		{
 			particle->update(dt, window);
 			window.draw(*particle);
 		}
 
 		window.draw(fpsText);
 
-
 		window.display();
 	}
 
 	return 0;
-
 }
 
-sf::Vector2f getRandomParticlePosition(sf::RenderWindow& window, float radius) {
+sf::Vector2f getRandomParticlePosition(sf::RenderWindow &window, float radius)
+{
 	float randomX = rand() % (int)(window.getSize().x - radius * 2);
 	float randomY = rand() % (int)(window.getSize().y - radius * 2);
 	return sf::Vector2f(randomX, randomY);
 }
 
-sf::Vector2f getRandomParticleVelocity() {
+sf::Vector2f getRandomParticleVelocity()
+{
 	float vx = rand() % 2 - 0.8f;
 	float vy = rand() % 2 - 0.8f;
 	return sf::Vector2f(vx, vy);
